@@ -21,13 +21,13 @@ class WebViewLoad extends StatefulWidget {
 }
 
 class WebViewLoadUI extends State<WebViewLoad> {
+  bool isLoading=true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          // backgroundColor: Color(0xff885566),
           title: new Text(
-            "Jumia Kilimall Masoko",
+            "Best Shopping Deals",
             textAlign: TextAlign.center,
             style: new TextStyle(color: Colors.white),
           ),
@@ -51,9 +51,21 @@ class WebViewLoadUI extends State<WebViewLoad> {
           ],
         ),
         body: SafeArea(
-            child: WebView(
+            child:Stack(children: <Widget>[
+              WebView(
           initialUrl: 'https://jkm-bot.herokuapp.com',
           javascriptMode: JavascriptMode.unrestricted,
-        )));
+            onPageFinished: (finish) {
+              setState(() {
+                isLoading = false;
+              });
+            },
+        ),
+          isLoading ? Center( child: CircularProgressIndicator(),)
+                    : Stack(),
+            ]
+            )
+        )
+        );
   }
 }
